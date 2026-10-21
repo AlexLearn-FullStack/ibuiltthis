@@ -1,8 +1,11 @@
+import HeroSection from "@/components/landing-page/hero-section";
+
+
 export default function page () {
   
   return (
     <main>
-      <h1>IbuiltThis</h1>
+      <HeroSection />
     </main>
-  )
+  );
 }
