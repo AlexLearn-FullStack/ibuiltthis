@@ -1,9 +1,11 @@
 import Link from "next/link"
 import SectionHeader from "../section-header";
 import { Button } from "../ui/button";
-import { ArrowUpRight, StarIcon } from "lucide-react";
-import { featuredProducts } from "@/constants";
+import { ArrowUpRight, Package, StarIcon } from "lucide-react";
 import ProductCard from "../products/product-card";
+import EmptyState from "../empty-state";
+
+import { productsDemo as featuredProducts } from "@/constants";
 
 
 export default function FeaturedProducts () {
@@ -32,18 +34,29 @@ export default function FeaturedProducts () {
         </div>
 
 
-        <div className="grid-wrapper">
-          {
-            featuredProducts.map(
-              (product) => (
-                <ProductCard
-                  key={ product.id }
-                  { ...product }
-                />
-              )
+        {
+          featuredProducts.length > 0
+            ? (
+              <div className="grid-wrapper">
+                {
+                  featuredProducts.map(
+                    (product) => (
+                      <ProductCard
+                        key={ product.id }
+                        { ...product }
+                      />
+                    )
+                  )
+                }
+              </div>
             )
-          }
-        </div>
+            : (
+              <EmptyState
+                message="No featured products yet. Check back later."
+                icon={Package}
+              />
+            )
+        }
       </div>
     </section>
   )
