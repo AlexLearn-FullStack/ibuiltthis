@@ -21,7 +21,7 @@ const statsData: Stats[] = [
   },
 ]
 
-const featuredProducts: ProductDemo[] = [
+const productsDemo: ProductDemo[] = [
   {
     id: 1,
     name: "ParityKit",
@@ -51,5 +51,5 @@ const featuredProducts: ProductDemo[] = [
 
 export {
   statsData,
-  featuredProducts
+  productsDemo
 }
