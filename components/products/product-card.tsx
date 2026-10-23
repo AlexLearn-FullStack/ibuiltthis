@@ -37,6 +37,7 @@ export default function ProductCard ({ ...product }: ProductDemo) {
             </div>
             
             <VotingBtns
+              // voteCount={ product.voteCount }
               voteCount={ product.votes }
             />
 
@@ -45,7 +46,7 @@ export default function ProductCard ({ ...product }: ProductDemo) {
         <CardFooter>
           <div className="flex items-center gap-2">
             {
-              product.tags.map(
+              product.tags?.map(
                 (tag) => (
                   <Badge variant="secondary" key={ tag }>
                     { tag }
