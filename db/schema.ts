@@ -1,3 +1,4 @@
+import type { InferSelectModel } from "drizzle-orm";
 import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
 
@@ -9,3 +10,5 @@ export const products = pgTable(
     // .... Grab from video-kit
   }
 )
+
+type Product = InferSelectModel<typeof products>;
