@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
+// import {
+//   Show, SignInButton,
+//   SignUpButton, UserButton
+// } from "@clerk/nextjs";
 import {
   CompassIcon, Home,
   SparkleIcon, UserIcon
@@ -10,25 +14,18 @@ export default function Header () {
   const isSignedIn = false;
   
   return (
-    <header
-      className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
-    >
+    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="wrapper px-12">
         <div className="flex h-16 items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2 group"
-          >
-            <div
-              className="size-8 rounded-lg bg-primary flex items-center justify-center"
-            >
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="size-8 rounded-lg bg-primary flex items-center justify-center">
               <SparkleIcon className="size-4 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold">
               i<span className="text-primary">Built</span>This
             </span>
           </Link>
-        
+
           <nav className="flex items-center gap-1">
             <Link
               href="/"
@@ -47,36 +44,56 @@ export default function Header () {
             </Link>
           </nav>
 
+          {/* Replace this div with the div commented below after getting clerk keys */}
           <div className="flex items-center gap-3">
-            {
-              isSignedIn
-                ? (
-                  <>
-                    <Button>
-                      <Link
-                        href="/submit"
-                        className="flex gap-1.5 capitalize"
-                      >
-                        <SparkleIcon className="size-4" />
-                        <span>Submit Project</span>
-                      </Link>
-                    </Button>
+            {isSignedIn ? (
+              <>
+                <Button>
+                  <Link href="/submit" className="flex gap-1.5 capitalize">
+                    <SparkleIcon className="size-4" />
+                    <span>Submit Project</span>
+                  </Link>
+                </Button>
 
-                    <Button variant="ghost" size="icon">
-                      <UserIcon />
-                    </Button>
-                  </>
-                )
-                : (
-                  <>
-                    <Button variant="ghost">Sign In</Button>
-                    <Button>Sign Up</Button>
-                  </>
-                )
-            }
+                <Button variant="ghost" size="icon">
+                  <UserIcon />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost">Sign In</Button>
+                <Button>Sign Up</Button>
+              </>
+            )}
           </div>
+
+          {/* 
+            <div className="flex items-center gap-3">
+              <Show when="signed-in">
+                <Button>
+                  <Link
+                    href="/submit"
+                    className="flex gap-1.5 capitalize"
+                  >
+                    <SparkleIcon className="size-4" />
+                    <span>Submit Project</span>
+                  </Link>
+                </Button>
+
+                <UserButton />
+              </Show>
+
+              <Show when="signed-out">
+                <SignInButton />
+
+                <SignUpButton>
+                  <Button>Sign Up</Button>
+                </SignUpButton>
+              </Show>
+            </div>
+          */}
         </div>
       </div>
     </header>
-  )
+  );
 }
