@@ -21,3 +21,18 @@ export interface ProductDemo {
   votes: number,
   isFeatured: boolean
 }
+
+export interface FieldProps {
+  label: string,
+  name: string,
+  required?: boolean,
+  placeholder?: string,
+  helperText?: string,
+  onChange: (
+    e: 
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => void,
+  textarea?: boolean,
+  error?: string,
+}
