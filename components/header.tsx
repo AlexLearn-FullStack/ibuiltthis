@@ -61,7 +61,11 @@ export default function Header () {
               </Show>
 
               <Show when="signed-out">
-                <SignInButton />
+                <SignInButton>
+                  <Button variant="outline" className="cursor-pointer">
+                    Sign In
+                  </Button>
+                </SignInButton>
 
                 <SignUpButton>
                   <Button className="cursor-pointer">Sign Up</Button>
