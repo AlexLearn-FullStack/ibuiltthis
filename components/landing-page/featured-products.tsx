@@ -1,16 +1,16 @@
+"use cache";
+
 import Link from "next/link"
 import SectionHeader from "../section-header";
 import { buttonVariants } from "../ui/button";
 import { ArrowUpRight, Package, StarIcon } from "lucide-react";
 import ProductCard from "../products/product-card";
 import EmptyState from "../empty-state";
-// import { getFeaturedProducts } from "@/lib/products/products-select";
-
-import { productsDemo as featuredProducts } from "@/constants";
+import { getFeaturedProducts } from "@/lib/products/products-select";
 
 
 export default async function FeaturedProducts () {
-  // const featuredProducts = await getFeaturedProducts();
+  const featuredProducts = await getFeaturedProducts();
   
   return (
     <section className="py-20 bg-muted/20">

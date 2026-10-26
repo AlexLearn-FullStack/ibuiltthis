@@ -1,27 +1,48 @@
 import { db } from "@/db";
 import { products } from "@/db/schema";
-// import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
+import { connection } from "next/server";
 
 
-export async function getFeaturedProducts () {
+export async function getAllApprovedProducts () {
   const productsData = await db
     .select()
     .from(products)
-    // .where(eq(products.status, 'approved'))
-    // .orderBy(desc(products.voteCount));
+    .where(eq(products.status, "approved"))
+    .orderBy(desc(products.createdAt));
 
   return productsData;
 };
 
-// export async function getRecentlyLaunchedProducts () {
-//   const productsData = await getFeaturedProducts()
-//   const oneWeekAgo = new Date();
-//   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-//   return productsData.filter(
-//     (product) => product.createdAt
-//       && new Date(product.createdAt.toISOString()) >= oneWeekAgo
-//   )  
-// };
+export async function getFeaturedProducts () {
+  "use cache";
 
-// 2:16:25
+  const productsdata = await db
+    .select()
+    .from(products)
+    .where(
+      and(
+        eq(products.status, "approved"),
+        eq(products.isFeatured, true)
+      )
+    )
+    .orderBy(desc(products.voteCount))
+    .limit(6);
+  
+  return productsdata;
+}
+
+
+export async function getRecentlyLaunchedProducts () {
+  await connection(); // always get fresh data
+  const productsData = await getAllApprovedProducts();
+
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+  return productsData.filter(
+    (product) => product.createdAt
+      && new Date(product.createdAt.toISOString()) >= oneWeekAgo
+  )  
+};

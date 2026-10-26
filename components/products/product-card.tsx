@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { StarIcon } from "lucide-react";
-import type { ProductDemo } from "@/types";
+import type { Product } from "@/db/schema";
 import { Badge } from "../ui/badge";
 import {
   Card, CardHeader,
@@ -10,9 +10,9 @@ import {
 import VotingBtns from "./voting-btns";
 
 
-export default function ProductCard ({ ...product }: ProductDemo) {
+export default function ProductCard ({ ...product }: Product) {
   return (
-    <Link href={`/products/${product.id}`}>
+    <Link href={`/products/${product.slug}`}>
       <Card
         className="group card-hover hover:bg-primary-foreground/10 border-solid border-gray-400 min-h-45 rounded-xl"
       >
@@ -37,8 +37,7 @@ export default function ProductCard ({ ...product }: ProductDemo) {
             </div>
             
             <VotingBtns
-              // voteCount={ product.voteCount }
-              voteCount={ product.votes }
+              voteCount={ product.voteCount }
             />
 
           </div>
