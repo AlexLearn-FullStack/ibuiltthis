@@ -18,16 +18,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <ClerkProvider>
-      <html lang="en">
+    <html lang="en">
         <body
           className={cn("h-full", "antialiased", outfit.className)}
-        >
-          <Header />
-          {children}
-          <Footer />
+          >
+          <ClerkProvider>
+            <Header />
+
+            {children}
+            
+            <Footer />
+          </ClerkProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }

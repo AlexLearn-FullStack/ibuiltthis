@@ -1,60 +1,57 @@
+import "dotenv/config";
 import { drizzle } from "drizzle-orm/neon-http";
 import { products } from "./schema";
 import { allProducts } from "./data";
 
-const databaseUrl = process.env.DATABASE_URL;
+const db = drizzle(process.env.DATABASE_URL!);
 
 
 async function main() {
-  if (!databaseUrl) {
-    throw new Error("DATABASE_URL is not configured.");
-  }
-
-  const db = drizzle(databaseUrl);
   console.log("🌱 Seeding database...");
 
   await db.delete(products);
-  console.log("✅ Cleared existing products");
+  console.log("✅ Cleared existing data");
 
-  await db.insert(products).values(
-    allProducts.map((product) => ({
+  for (const product of allProducts) {
+    await db.insert(products).values({
       name: product.name,
       slug: product.slug,
       tagline: product.tagline,
       description: product.description,
       websiteUrl: product.websiteUrl,
       tags: product.tags,
-      isFeatured: product.isFeatured ?? false,
-      voteCount: product.voteCount ?? 0,
+      isFeatured: product.isFeatured || false,
+      voteCount: product.voteCount || 0,
       createdAt: product.createdAt,
-      approvedAt: product.approvedAt,
+      approvedAt: product.status === "approved" ? product.approvedAt : null,
       status: product.status,
       submittedBy: product.submittedBy,
-    })),
-  );
+    });
 
-  const seededProducts = await db
-    .select({
-      name: products.name,
-      slug: products.slug,
-      voteCount: products.voteCount,
-    })
-    .from(products);
-  console.log(
-    `\n🎉 Successfully seeded ${allProducts.length} products. Database now contains ${seededProducts.length} products.`,
-  );
+    console.log(
+      `✅ Added product: ${product.name} (${product.voteCount || 0} votes)`,
+    );
+  }
+
+
+  const insertedProducts = await db.select().from(products);
+  console.log(`\n🎉 Successfully seeded ${insertedProducts.length} products!`);
 
   console.log("\n📦 Products in database:");
-  seededProducts.forEach((product) => {
+  insertedProducts.forEach((product) => {
     console.log(
-      `  - ${product.name} (${product.slug}) - ${product.voteCount ?? 0} votes`,
+      `  - ${product.name} (${product.slug}) - ${product.voteCount} votes`,
     );
   });
 }
 
-function handleSeedError(error: unknown) {
-  console.error("❌ Error seeding database:", error);
-  process.exitCode = 1;
-}
 
-main().catch(handleSeedError);
+main()
+  .catch((error) => {
+    console.error("❌ Error seeding database:", error);
+    process.exit(1);
+  })
+  .finally(() => {
+    console.log("\n✨ Seeding complete!");
+    process.exit(0);
+  });

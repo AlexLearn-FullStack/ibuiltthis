@@ -71,7 +71,6 @@ export const allProducts = [
     websiteUrl: "https://paritykit.com",
     tags: ["SaaS", "Pricing", "Global"],
     createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
-    approvedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
     status: "pending" as const,
     submittedBy: "parity@example.com",
     voteCount: 612,
@@ -117,7 +116,6 @@ export const allProducts = [
     tags: ["Developer Tools", "API", "Infrastructure"],
     isFeatured: true,
     createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
-    approvedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
     status: "pending" as const,
     submittedBy: "api@example.com",
     voteCount: 445,
@@ -132,7 +130,6 @@ export const allProducts = [
     websiteUrl: "https://developertoleader.com",
     tags: ["Leadership", "Management", "Development"],
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-    approvedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
     status: "pending" as const,
     submittedBy: "kulkarni.ankita09@gmail.com",
     voteCount: 340,

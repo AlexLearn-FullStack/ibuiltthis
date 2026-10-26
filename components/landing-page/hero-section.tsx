@@ -1,9 +1,9 @@
-import { ArrowRightIcon, SparkleIcon } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { statsData } from "@/constants";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import StatsCard from "./stats-card";
+import { ArrowRightIcon, SparkleIcon } from "lucide-react";
 
 
 export default function HeroSection() {
@@ -43,31 +43,29 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-16">
-            <Button
-              size="lg"
-              className="text-base px-8 shadow-lg flex"
+            <Link
+              href="/submit"
+              className={buttonVariants({
+                size: "lg",
+                className:
+                  "text-base px-8 shadow-lg gap-2 justify-center items-center capitalize cursor-pointer",
+              })}
             >
-              <Link
-                href="/submit"
-                className="flex gap-2 justify-center items-center capitalize"
-              >
-                <SparkleIcon className="size-5" />
-                <span>Share Your Project</span>
-              </Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="secondary"
-              className="text-base px-8 shadow-lg flex"
+              <SparkleIcon className="size-5" />
+              <span>Share Your Project</span>
+            </Link>
+            <Link
+              href="/explore"
+              className={buttonVariants({
+                variant: "secondary",
+                size: "lg",
+                className:
+                  "text-base px-8 shadow-lg gap-2 justify-center items-center capitalize cursor-pointer",
+              })}
             >
-              <Link
-                href="/explore"
-                className="flex gap-2 justify-center items-center capitalize"
-              >
-                <span>Explore Projects</span>
-                <ArrowRightIcon className="size-5" />
-              </Link>
-            </Button>
+              <span>Explore Projects</span>
+              <ArrowRightIcon className="size-5" />
+            </Link>
           </div>
 
           <div

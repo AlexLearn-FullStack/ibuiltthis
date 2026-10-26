@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import {
   Show, SignInButton,
   SignUpButton, UserButton
@@ -47,15 +47,15 @@ export default function Header () {
           <div className="flex items-center gap-3">
             <Suspense>
               <Show when="signed-in">
-                <Button>
-                  <Link
-                    href="/submit"
-                    className="flex gap-1.5 capitalize"
-                  >
-                    <SparkleIcon className="size-4" />
-                    <span>Submit Project</span>
-                  </Link>
-                </Button>
+                <Link
+                  href="/submit"
+                  className={buttonVariants({
+                    className: "flex gap-1.5 capitalize cursor-pointer",
+                  })}
+                >
+                  <SparkleIcon className="size-4" />
+                  <span>Submit Project</span>
+                </Link>
                 
                 <UserButton />
               </Show>
@@ -68,7 +68,9 @@ export default function Header () {
                 </SignInButton>
 
                 <SignUpButton>
-                  <Button className="cursor-pointer">Sign Up</Button>
+                  <Button className="cursor-pointer">
+                    Sign Up
+                  </Button>
                 </SignUpButton>
               </Show>
             </Suspense>
