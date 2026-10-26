@@ -47,11 +47,10 @@ async function main() {
 
 
 main()
-  .catch((error) => {
-    console.error("❌ Error seeding database:", error);
-    process.exit(1);
-  })
-  .finally(() => {
+  .then(() => {
     console.log("\n✨ Seeding complete!");
-    process.exit(0);
+  })
+  .catch((err) => {
+    console.error("❌ Error seeding database:", err);
+    process.exitCode = 1;
   });
