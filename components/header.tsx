@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-// import {
-//   Show, SignInButton,
-//   SignUpButton, UserButton
-// } from "@clerk/nextjs";
+import {
+  Show, SignInButton,
+  SignUpButton, UserButton
+} from "@clerk/nextjs";
 import {
   CompassIcon, Home,
-  SparkleIcon, UserIcon
+  SparkleIcon
 } from "lucide-react";
+import { Suspense } from "react";
 
 
 export default function Header () {
-  const isSignedIn = false;
   
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -44,31 +44,8 @@ export default function Header () {
             </Link>
           </nav>
 
-          {/* Replace this div with the div commented below after getting clerk keys */}
           <div className="flex items-center gap-3">
-            {isSignedIn ? (
-              <>
-                <Button>
-                  <Link href="/submit" className="flex gap-1.5 capitalize">
-                    <SparkleIcon className="size-4" />
-                    <span>Submit Project</span>
-                  </Link>
-                </Button>
-
-                <Button variant="ghost" size="icon">
-                  <UserIcon />
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="ghost">Sign In</Button>
-                <Button>Sign Up</Button>
-              </>
-            )}
-          </div>
-
-          {/* 
-            <div className="flex items-center gap-3">
+            <Suspense>
               <Show when="signed-in">
                 <Button>
                   <Link
@@ -79,7 +56,7 @@ export default function Header () {
                     <span>Submit Project</span>
                   </Link>
                 </Button>
-
+                
                 <UserButton />
               </Show>
 
@@ -87,11 +64,11 @@ export default function Header () {
                 <SignInButton />
 
                 <SignUpButton>
-                  <Button>Sign Up</Button>
+                  <Button className="cursor-pointer">Sign Up</Button>
                 </SignUpButton>
               </Show>
-            </div>
-          */}
+            </Suspense>
+          </div>
         </div>
       </div>
     </header>
