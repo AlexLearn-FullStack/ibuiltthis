@@ -9,8 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:seed": "npx tsx db/seed.ts"
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
