@@ -1,6 +1,6 @@
 import Link from "next/link"
 import SectionHeader from "../section-header";
-import { Button } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import { ArrowUpRight, Package, StarIcon } from "lucide-react";
 import ProductCard from "../products/product-card";
 import EmptyState from "../empty-state";
@@ -19,18 +19,16 @@ export default function FeaturedProducts () {
             icon={StarIcon}
           />
 
-          <Button
-            variant="outline"
-            className="hidden sm:flex"
+          <Link
+            href="/explore"
+            className={buttonVariants({
+              variant: "outline",
+              className: "hidden sm:flex gap-2 border-border!",
+            })}
           >
-            <Link
-              href="/explore"
-              className="flex gap-2"
-            >
-              <span>View All</span>
-              <ArrowUpRight className="size-4" />
-            </Link>
-          </Button>
+            <span>View All</span>
+            <ArrowUpRight className="size-4" />
+          </Link>
         </div>
 
 

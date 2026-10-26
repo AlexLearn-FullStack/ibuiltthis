@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/header";
@@ -18,13 +19,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-      <body
-        className={cn("h-full", "antialiased", outfit.className)}
-      >
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
+        <body
+          className={cn("h-full", "antialiased", outfit.className)}
+          >
+          <ClerkProvider>
+            <Header />
+
+            {children}
+            
+            <Footer />
+          </ClerkProvider>
+        </body>
+      </html>
   );
 }

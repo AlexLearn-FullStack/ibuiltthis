@@ -1,0 +1,56 @@
+import "dotenv/config";
+import { drizzle } from "drizzle-orm/neon-http";
+import { products } from "./schema";
+import { allProducts } from "./data";
+
+const db = drizzle(process.env.DATABASE_URL!);
+
+
+async function main() {
+  console.log("🌱 Seeding database...");
+
+  await db.delete(products);
+  console.log("✅ Cleared existing data");
+
+  for (const product of allProducts) {
+    await db.insert(products).values({
+      name: product.name,
+      slug: product.slug,
+      tagline: product.tagline,
+      description: product.description,
+      websiteUrl: product.websiteUrl,
+      tags: product.tags,
+      isFeatured: product.isFeatured || false,
+      voteCount: product.voteCount || 0,
+      createdAt: product.createdAt,
+      approvedAt: product.status === "approved" ? product.approvedAt : null,
+      status: product.status,
+      submittedBy: product.submittedBy,
+    });
+
+    console.log(
+      `✅ Added product: ${product.name} (${product.voteCount || 0} votes)`,
+    );
+  }
+
+
+  const insertedProducts = await db.select().from(products);
+  console.log(`\n🎉 Successfully seeded ${insertedProducts.length} products!`);
+
+  console.log("\n📦 Products in database:");
+  insertedProducts.forEach((product) => {
+    console.log(
+      `  - ${product.name} (${product.slug}) - ${product.voteCount} votes`,
+    );
+  });
+}
+
+
+main()
+  .then(() => {
+    console.log("\n✨ Seeding complete!");
+  })
+  .catch((err) => {
+    console.error("❌ Error seeding database:", err);
+    process.exitCode = 1;
+  });
