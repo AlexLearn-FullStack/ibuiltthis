@@ -9,6 +9,7 @@ import {
   SparkleIcon
 } from "lucide-react";
 import { Suspense } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 
 export default function Header () {
@@ -57,7 +58,9 @@ export default function Header () {
                   <span>Submit Project</span>
                 </Link>
                 
-                <UserButton />
+                <Suspense fallback={<Skeleton className="size-7 rounded-full" />}>
+                  <UserButton />
+                </Suspense>
               </Show>
 
               <Show when="signed-out">

@@ -4,11 +4,12 @@ import { buttonVariants } from "../ui/button";
 import { ArrowUpRight, Package, StarIcon } from "lucide-react";
 import ProductCard from "../products/product-card";
 import EmptyState from "../empty-state";
+import { getFeaturedProducts } from "@/lib/products/products-select";
 
-import { productsDemo as featuredProducts } from "@/constants";
 
-
-export default function FeaturedProducts () {
+export default async function FeaturedProducts () {
+  const featuredProducts = await getFeaturedProducts();
+  
   return (
     <section className="py-20 bg-muted/20">
       <div className="wrapper">
