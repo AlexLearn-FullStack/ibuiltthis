@@ -1,5 +1,3 @@
-"use cache";
-
 import Link from "next/link"
 import SectionHeader from "../section-header";
 import { buttonVariants } from "../ui/button";

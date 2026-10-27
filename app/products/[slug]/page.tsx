@@ -1,6 +1,8 @@
 import { getAllApprovedProducts } from "@/lib/products/products-select";
 
 
+export const instant = false;
+
 export const generateStaticParams = async () => {
   const products = await getAllApprovedProducts();
   return products.map(

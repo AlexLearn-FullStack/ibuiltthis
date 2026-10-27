@@ -1,5 +1,4 @@
 import { RocketIcon } from "lucide-react";
-import { Skeleton } from "../ui/skeleton";
 import SectionHeader from "../section-header";
 import ProductCardFallback from "./product-card-fallback";
 
@@ -14,7 +13,7 @@ const RecentlyLaunchedFallback = () => (
         icon={RocketIcon}
       />
 
-      <Skeleton className="grid-wrapper">
+      <div className="grid-wrapper">
         {
           [1,2,3].map(
             (i) => (
@@ -22,7 +21,7 @@ const RecentlyLaunchedFallback = () => (
             )
           )
         }
-      </Skeleton>
+      </div>
     </div>
   </section>
 );
