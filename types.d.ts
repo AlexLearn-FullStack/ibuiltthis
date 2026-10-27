@@ -34,5 +34,11 @@ export interface FieldProps {
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => void,
   textarea?: boolean,
-  error?: string,
+  error?: string[],
+}
+
+export interface FormState {
+  success: boolean,
+  errors?: Record<string, string[]>,
+  message: string
 }

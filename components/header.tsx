@@ -1,15 +1,15 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { Button, buttonVariants } from "./ui/button";
+import CustomUserBtn from './custom-user-btn';
 import {
   Show, SignInButton,
-  SignUpButton, UserButton
+  SignUpButton
 } from "@clerk/nextjs";
 import {
   CompassIcon, Home,
   SparkleIcon
 } from "lucide-react";
-import { Suspense } from "react";
-import { Skeleton } from "./ui/skeleton";
 
 
 export default function Header () {
@@ -23,7 +23,7 @@ export default function Header () {
               <SparkleIcon className="size-4 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold">
-              i<span className="text-primary">Built</span>This
+              i<span className="text-primary">Made</span>This
             </span>
           </Link>
 
@@ -58,9 +58,7 @@ export default function Header () {
                   <span>Submit Project</span>
                 </Link>
                 
-                <Suspense fallback={<Skeleton className="size-7 rounded-full" />}>
-                  <UserButton />
-                </Suspense>
+                <CustomUserBtn />
               </Show>
 
               <Show when="signed-out">

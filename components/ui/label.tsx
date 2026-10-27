@@ -1,7 +1,8 @@
+/** biome-ignore-all lint/a11y/noLabelWithoutControl: This is an exported ui component */
 "use client"
 
-import * as React from "react"
 import { cn } from "cn"
+
 
 function Label({ className, ...props }: React.ComponentProps<"label">) {
   return (

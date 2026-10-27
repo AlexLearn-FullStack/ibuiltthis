@@ -22,7 +22,7 @@ export default function Footer () {
                   <SparkleIcon className="size-4 text-primary-foreground" />
                 </div>
                 <span className="text-xl font-bold">
-                  i<span className="text-primary">Built</span>This
+                  i<span className="text-primary">Made</span>This
                 </span>
               </Link>
               <p className="mt-3 text-muted-foreground text-sm">
@@ -64,7 +64,7 @@ export default function Footer () {
           </div>
           <div className="border-t pt-6">
             <p className="text-xs text-muted-foreground">
-              &copy;{ year } iBuiltThis. All Rights Reserved.
+              &copy;{ year } iMadeThis. All Rights Reserved.
             </p>
           </div>
         </div>

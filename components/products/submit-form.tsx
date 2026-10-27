@@ -1,20 +1,47 @@
 "use client";
 
+import { useActionState } from "react";
 import FormField from "../form-field";
 import { Button } from "../ui/button";
-import { SparklesIcon } from "lucide-react";
+import { Loader2Icon, SparklesIcon } from "lucide-react";
+import { addProductAction } from "@/lib/products/products-actions";
+import type { FormState } from "@/types";
+import { cn } from '@/lib/utils';
 
+
+const initialState: FormState = {
+  success: false,
+  errors: undefined,
+  message: ""
+}
 
 export default function SubmitForm () {
+  const [ state, formAction, isPending ] = useActionState(
+    addProductAction,
+    initialState
+  )
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // TODO: Implement actual logic
-    console.log("Form submitted")
-  }
-  
+  const { success, message, errors } = state;
+
   return (
-    <form className="space-y-6" onSubmit={ handleSubmit }>
+    <form className="space-y-6" action={ formAction }>
+      {
+        message && (
+          <div
+            className={
+              cn(
+                "p-4 rounded-lg border",
+                success
+                  ? "bg-primary/10 border-primary text-primary"
+                  : "bg-destructive/10 border-destructive text-destructive"
+              )
+            }
+            role="alert"
+            aria-live="polite"
+          >{ message }</div>
+        )
+      }
+
       <FormField
         name="name"
         label="Project Name"
@@ -23,7 +50,7 @@ export default function SubmitForm () {
         onChange={
           () => {}
         }
-        error=""
+        error={errors?.name ?? []}
       />
 
       <FormField
@@ -34,8 +61,8 @@ export default function SubmitForm () {
         onChange={
           () => {}
         }
-        helperText="URL-friendly version of your project name. Must only be letters"
-        error=""
+        helperText="URL-friendly version of your project name. Must only contain letters, numbers, and dashes, and in lowercase."
+        error={errors?.slug ?? []}
       />
 
       <FormField
@@ -45,7 +72,7 @@ export default function SubmitForm () {
         onChange={
           () => {}
         }
-        error=""
+        error={errors?.tagline ?? []}
       />
 
       <FormField
@@ -56,7 +83,8 @@ export default function SubmitForm () {
         onChange={
           () => {}
         }
-        error=""
+        required
+        error={errors?.description ?? []}
       />
 
       <FormField
@@ -68,7 +96,7 @@ export default function SubmitForm () {
           () => {}
         }
         helperText="Enter your project's website or landing page URL."
-        error=""
+        error={errors?.websiteUrl ?? []}
       />
 
       <FormField
@@ -78,8 +106,9 @@ export default function SubmitForm () {
         onChange={
           () => {}
         }
+        required
         helperText="Project tags. One-word comma separated tags."
-        error=""
+        error={errors?.tags ?? []}
       />
 
       <Button
@@ -87,8 +116,21 @@ export default function SubmitForm () {
         size="lg"
         className="w-full cursor-pointer"
       >
-        <SparklesIcon className="size-4" />
-        Submit Project
+        {
+          isPending
+            ? (
+              <>
+                <Loader2Icon className="size-4 animate-spin" />
+                Submitting...
+              </>
+            )
+            : (
+              <>
+                <SparklesIcon className="size-4" />
+                Submit Project
+              </>
+            )
+        }
       </Button>
     </form>
   );

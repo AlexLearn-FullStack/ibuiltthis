@@ -19,7 +19,12 @@ export default function FormField ({
   
   return (
     <div className="space-y-2">
-      <Label htmlFor={name}>{ label }</Label>
+      <Label htmlFor={name}>
+        { label }
+        {
+          required && <span className="text-destructive text-sm -ml-1.5">*</span>
+        }
+      </Label>
 
       {
         textarea 
@@ -28,7 +33,7 @@ export default function FormField ({
               id={ name }
               name={ name }
               placeholder={ placeholder }
-              required
+              required={ required }
               onChange={
                 onChange as (e: React.ChangeEvent<HTMLTextAreaElement>) => void
               }
@@ -56,7 +61,12 @@ export default function FormField ({
       }
 
       {
-        error && <p className="text-xs text-destructive">{error}</p>
+        error && 
+          <p className="text-xs text-destructive">
+            {
+              error.join(', ')
+            }
+          </p>
       }
     </div>
   );
