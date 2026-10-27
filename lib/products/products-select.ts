@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { products } from "@/db/schema";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, gte } from "drizzle-orm";
 import { connection } from "next/server";
 
 
@@ -36,13 +36,17 @@ export async function getFeaturedProducts () {
 
 export async function getRecentlyLaunchedProducts () {
   await connection(); // always get fresh data
-  const productsData = await getAllApprovedProducts();
-
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-  return productsData.filter(
-    (product) => product.createdAt
-      && new Date(product.createdAt.toISOString()) >= oneWeekAgo
-  )  
-};
+  return db
+    .select()
+    .from(products)
+    .where(
+      and(
+        eq(products.status, "approved"),
+        gte(products.approvedAt, oneWeekAgo)
+      )
+    )
+    .orderBy(desc(products.approvedAt));
+}
