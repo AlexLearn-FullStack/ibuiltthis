@@ -5,13 +5,14 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import OrganizationProvisioner from "@/components/organization-provisioner";
 
 
 const outfit = Outfit({ subsets: ["latin"] });
 
 
 export const metadata: Metadata = {
-  title: "IbuiltThis",
+  title: "iMadeThis",
   description: "A community platform for creators to showcase their apps, AI tools, SaaS products, and creative projects. Authentic launches, real builders, genuine feedback.",
 };
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           className={cn("h-full", "antialiased", outfit.className)}
           >
           <ClerkProvider>
+            <OrganizationProvisioner />
             <Header />
 
             {children}
