@@ -11,27 +11,27 @@ export default function Footer () {
       <section className="wrapper">
         <div className="flex flex-col gap-6">
           <div className="flex flex-row justify-between gap-6">
-            <div>
+            <div className="max-[640px]:flex max-[640px]:items-center max-[640px]:justify-center">
               <Link
                 href="/"
-                className="flex items-center gap-2 group"
+                className="flex items-center gap-2 group w-fit"
               >
                 <div
-                  className="size-8 rounded-lg bg-primary flex items-center justify-center"
+                  className="size-8 rounded-lg bg-primary items-center justify-center hidden sm:flex"
                 >
                   <SparkleIcon className="size-4 text-primary-foreground" />
                 </div>
-                <span className="text-xl font-bold">
+                <span className="text-sm sm:text-xl font-bold">
                   i<span className="text-primary">Made</span>This
                 </span>
               </Link>
-              <p className="mt-3 text-muted-foreground text-sm">
+              <p className="mt-3 text-muted-foreground text-sm hidden sm:block">
                 A community platform where creators share what they've built and discover new launches.
               </p>
             </div>
 
             <div>
-              <h4 className="font-bold text-lg">Product</h4>
+              <h4 className="font-bold sm:text-lg">Product</h4>
 
               <ul className="list-none mt-3 flex flex-col gap-2 text-muted-foreground text-sm">
                 <li>
@@ -47,7 +47,7 @@ export default function Footer () {
             </div>
 
             <div>
-              <h4 className="font-bold text-lg">Company</h4>
+              <h4 className="font-bold sm:text-lg">Company</h4>
 
               <ul className="list-none mt-3 flex flex-col gap-2 text-muted-foreground text-sm">
                 <li>
