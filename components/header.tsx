@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { Button, buttonVariants } from "./ui/button";
+import { Show } from "@clerk/nextjs";
+import { buttonVariants } from "./ui/button";
 import CustomUserBtn from './custom-user-btn';
-import {
-  Show, SignInButton,
-  SignUpButton
-} from "@clerk/nextjs";
+import AuthLinks from "./auth-links";
+import { Skeleton } from "./ui/skeleton";
 import {
   CompassIcon, Home,
   SparkleIcon
@@ -57,22 +56,18 @@ export default function Header () {
                   <SparkleIcon className="size-4" />
                   <span>Submit Project</span>
                 </Link>
-                
-                <CustomUserBtn />
+            
+                <Suspense fallback={
+                  <Skeleton className="size-7 rounded-full" />
+                }>
+                  <CustomUserBtn />
+                </Suspense>
               </Show>
 
               <Show when="signed-out">
-                <SignInButton>
-                  <Button variant="outline" className="cursor-pointer">
-                    Sign In
-                  </Button>
-                </SignInButton>
-
-                <SignUpButton>
-                  <Button className="cursor-pointer">
-                    Sign Up
-                  </Button>
-                </SignUpButton>
+                <Suspense fallback={ <AuthLinks disabled /> }>
+                  <AuthLinks />
+                </Suspense>
               </Show>
             </Suspense>
           </div>
