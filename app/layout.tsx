@@ -5,7 +5,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import { Toaster } from "@/components/ui/toast";
+import OrganizationProvisioner from "@/components/organization-provisioner";
 
 
 const outfit = Outfit({ subsets: ["latin"] });
@@ -24,12 +24,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           className={cn("h-full", "antialiased", outfit.className)}
           >
           <ClerkProvider>
+            <OrganizationProvisioner />
             <Header />
 
             {children}
             
             <Footer />
-            <Toaster />
           </ClerkProvider>
         </body>
       </html>

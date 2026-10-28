@@ -43,7 +43,7 @@ export default function ProductCard ({ ...product }: Product) {
           </div>
         </CardHeader>
         <CardFooter>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {
               product.tags?.map(
                 (tag) => (

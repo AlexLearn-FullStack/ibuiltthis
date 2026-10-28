@@ -28,17 +28,19 @@ export interface FieldProps {
   required?: boolean,
   placeholder?: string,
   helperText?: string,
-  onChange: (
+  onChange?: (
     e: 
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => void,
   textarea?: boolean,
   error?: string[],
+  defaultValue?: string,
 }
 
 export interface FormState {
-  success: boolean,
-  errors?: Record<string, string[]>,
-  message: string
+  success: boolean;
+  errors?: Record<string, string[] | undefined>;
+  message: string;
+  values?: Record<string, string>;
 }

@@ -21,7 +21,7 @@ export const addProductAction = async (prevState: FormState, formData: FormData)
     if(!orgId) {
       return {
         success: false,
-        message: "You must be a member of an organization to submit a project"
+        message: "You need an active organization to submit a project."
       }
     }
 
@@ -35,8 +35,9 @@ export const addProductAction = async (prevState: FormState, formData: FormData)
     if(!validatedData.success) {
       return {
         success: false,
-        errors: validatedData.error.flatten().fieldErrors,
-        message: "Invalid form data"
+        errors: z.flattenError(validatedData.error).fieldErrors,
+        message: "Invalid form data",
+        values: Object.fromEntries(formData) as Record<string, string>
       }
     }
 
@@ -63,7 +64,7 @@ export const addProductAction = async (prevState: FormState, formData: FormData)
     if (e instanceof z.ZodError) {
       return {
         success: false,
-        errors: e.flatten().fieldErrors,
+        errors: z.flattenError(e).fieldErrors,
         message: "Validation failed. Please check your inputs."
       }
     }

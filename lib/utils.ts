@@ -22,17 +22,23 @@ export const productSchema = z.object({
     .optional(),
   description: z
     .string()
-    .min(10, { error: "Description must be at least 15 characters long!" }),
+    .min(15, { error: "Description must be at least 15 characters long!" }),
   websiteUrl: z
-    .string()
+    .url({ error: "Please enter a valid URL" })
     .startsWith("https://", { error: "URL must start with 'https://'" })
-    .min(12, { error: "Please provide a valid url" }),
+    .min(12, { error: "URL too short!" }),
   tags: z
     .string()
-    .min(1, { error: "Tags are required" })
+    .min(2, { error: "Tags must be at least 2 characters long!" })
     .transform(
-      (value) => value.split(",").map(
-        (tag) => tag.trim().toLowerCase()
-      )
+      (value) => [
+        ...new Set(
+          value
+            .split(",")
+            .map((tag) => tag.trim().toLowerCase())
+            .filter(Boolean)
+        ),
+      ]
     )
+    .refine((tags) => tags.length > 0, { error: "Tags are required" })
 });

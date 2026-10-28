@@ -21,7 +21,7 @@ export default function SubmitForm () {
     initialState
   )
 
-  const { success, message, errors } = state;
+  const { success, message, errors, values } = state;
 
   return (
     <form className="space-y-6" action={ formAction }>
@@ -47,10 +47,8 @@ export default function SubmitForm () {
         label="Project Name"
         placeholder="My awesome project"
         required
-        onChange={
-          () => {}
-        }
-        error={errors?.name ?? []}
+        defaultValue={ values?.name }
+        error={ errors?.name ?? [] }
       />
 
       <FormField
@@ -58,21 +56,17 @@ export default function SubmitForm () {
         label="Slug"
         placeholder="my-awesome-project"
         required
-        onChange={
-          () => {}
-        }
+        defaultValue={ values?.slug }
         helperText="URL-friendly version of your project name. Must only contain letters, numbers, and dashes, and in lowercase."
-        error={errors?.slug ?? []}
+        error={ errors?.slug ?? [] }
       />
 
       <FormField
         name="tagline"
         label="Tagline"
         placeholder="A brief catchy description."
-        onChange={
-          () => {}
-        }
-        error={errors?.tagline ?? []}
+        defaultValue={ values?.tagline }
+        error={ errors?.tagline ?? [] }
       />
 
       <FormField
@@ -80,11 +74,9 @@ export default function SubmitForm () {
         name="description"
         label="Description"
         placeholder="Tell us more about your project..."
-        onChange={
-          () => {}
-        }
+        defaultValue={ values?.description }
         required
-        error={errors?.description ?? []}
+        error={ errors?.description ?? [] }
       />
 
       <FormField
@@ -92,28 +84,25 @@ export default function SubmitForm () {
         label="Website URL"
         placeholder="https://yourproject.com"
         required
-        onChange={
-          () => {}
-        }
+        defaultValue={ values?.websiteUrl }
         helperText="Enter your project's website or landing page URL."
-        error={errors?.websiteUrl ?? []}
+        error={ errors?.websiteUrl ?? [] }
       />
 
       <FormField
         name="tags"
         label="Tags"
         placeholder="AI, SaaS, Productivity"
-        onChange={
-          () => {}
-        }
+        defaultValue={ values?.tags }
         required
         helperText="Project tags. One-word comma separated tags."
-        error={errors?.tags ?? []}
+        error={ errors?.tags ?? [] }
       />
 
       <Button
         type="submit"
         size="lg"
+        disabled={ isPending }
         className="w-full cursor-pointer"
       >
         {

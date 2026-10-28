@@ -14,7 +14,8 @@ export default function FormField ({
   onChange,
   helperText,
   error,
-  textarea
+  textarea,
+  defaultValue
 }: FieldProps) {
   
   return (
@@ -34,9 +35,12 @@ export default function FormField ({
               name={ name }
               placeholder={ placeholder }
               required={ required }
+              defaultValue={ defaultValue }
               onChange={
                 onChange as (e: React.ChangeEvent<HTMLTextAreaElement>) => void
               }
+              aria-invalid={!!error?.length}
+              aria-describedby={ error?.length ? `${name}-error` : undefined }
             />
           ) 
           : (
@@ -46,9 +50,12 @@ export default function FormField ({
               name={ name }
               placeholder={ placeholder }
               required={ required }
+              defaultValue={ defaultValue }
               onChange={
                 onChange as (e: React.ChangeEvent<HTMLInputElement>) => void
               }
+              aria-invalid={!!error?.length}
+              aria-describedby={ error?.length ? `${name}-error` : undefined }
             />
           )
       }
@@ -61,12 +68,15 @@ export default function FormField ({
       }
 
       {
-        error && 
-          <p className="text-xs text-destructive">
-            {
-              error.join(', ')
-            }
-          </p>
+        error?.length
+          ? (
+            <p className="text-xs text-destructive" id={`${name}-error`}>
+              {
+                error.join(', ')
+              }
+            </p>
+          )
+          : null
       }
     </div>
   );
