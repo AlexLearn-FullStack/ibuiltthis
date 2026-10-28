@@ -1,6 +1,8 @@
+/** biome-ignore-all lint/correctness/noUnusedFunctionParameters: auto */
 "use server";
 
 import z from "zod";
+import { NeonDbError } from "@neondatabase/serverless";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import type { FormState } from "@/types";
 import { productSchema } from "../utils";
@@ -60,6 +62,24 @@ export const addProductAction = async (prevState: FormState, formData: FormData)
   }
   catch (e) {
     console.error(e)
+
+    const databaseError =
+      e instanceof Error && "cause" in e ? e.cause : e;
+
+    if (
+      databaseError instanceof NeonDbError
+      && databaseError.code === "23505"
+      && databaseError.constraint === "products_slug_idx"
+    ) {
+      return {
+        success: false,
+        errors: {
+          slug: ["This slug is already in use. Please choose another slug."]
+        },
+        message: "This slug is already in use. Please choose another slug.",
+        values: Object.fromEntries(formData.entries()) as Record<string, string>
+      }
+    }
 
     if (e instanceof z.ZodError) {
       return {
