@@ -11,6 +11,7 @@ import VotingBtns from "./voting-btns";
 
 
 export default function ProductCard ({ ...product }: Product) {
+  
   return (
     <Link href={`/products/${product.slug}`}>
       <Card
@@ -37,6 +38,7 @@ export default function ProductCard ({ ...product }: Product) {
             </div>
             
             <VotingBtns
+              productId={ product.id }
               voteCount={ product.voteCount }
             />
 
