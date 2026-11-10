@@ -2,12 +2,14 @@
 "use server";
 
 import z from "zod";
+import { eq, sql } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { NeonDbError } from "@neondatabase/serverless";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import type { FormState } from "@/types";
-import { productSchema } from "../utils";
 import { db } from "@/db";
 import { products } from "@/db/schema";
+import type { FormState } from "@/types";
+import { productSchema } from "../utils";
 
 
 export const addProductAction = async (prevState: FormState, formData: FormData): Promise<FormState> => {
@@ -93,5 +95,77 @@ export const addProductAction = async (prevState: FormState, formData: FormData)
       success: false,
       message: "Failed to submit project",
     };
+  }
+}
+
+
+export const upVoteProductAction = async (productId: number) => {
+  try {
+    const { userId, orgId } = await auth();
+
+    if (!userId || !orgId) {
+      return {
+        success: false,
+        message: "Unauthorized. Please log in to start upVoting projects.",
+      };
+    }
+
+    await db
+      .update(products)
+      .set({
+        voteCount: sql`GREATEST(0, vote_count + 1)`
+      })
+      .where(eq(products.id, productId));
+
+    revalidatePath("/")
+    
+    return {
+      success: true,
+      message: "Product upvoted successfully!"
+    }
+  }
+  catch (e) {
+    console.error(`Error UpVoting Product: ${e}`)
+    return {
+     success: false,
+     message: "Failed to upVote Product",
+     voteCount: 0 
+    }
+  }
+}
+
+
+export const downVoteProductAction = async (productId: number) => {
+  try {
+    const { userId, orgId } = await auth();
+
+    if (!userId || !orgId) {
+      return {
+        success: false,
+        message: "Unauthorized. Please log in to downVote project.",
+      };
+    }
+
+    await db
+      .update(products)
+      .set({
+        voteCount: sql`GREATEST(0, vote_count - 1)`
+      })
+      .where(eq(products.id, productId));
+
+    revalidatePath("/");
+    
+    return {
+      success: true,
+      message: "Product downVoted successfully!"
+    }
+  }
+  catch (e) {
+    console.error(`Error DownVoting Product: ${e}`)
+    return {
+     success: false,
+     message: "Failed to downVote Product",
+     voteCount: 0 
+    }
   }
 }
