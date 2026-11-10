@@ -2,7 +2,7 @@
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: isolate click */
 'use client';
 
-import { useOptimistic, useTransition } from "react";
+import { useState, useOptimistic, useTransition } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -12,12 +12,11 @@ import { downVoteProductAction, upVoteProductAction } from "@/lib/products/produ
 export default function VotingBtns ({
   voteCount: initialVoteCount,
   productId,
-  hasVoted
 }: {
   voteCount: number;
   productId: number;
-  hasVoted: boolean;
 }) {
+  const [ hasVoted, setHasVoted ] = useState<boolean>(false)
   const [ optimisticVoteCount, setOptimisticVoteCount ] = useOptimistic(
     initialVoteCount,
     (currentCount, change: number) => Math.max(
@@ -28,15 +27,23 @@ export default function VotingBtns ({
   
   const handleUpvote = async () => {
     startTransition(async () => {
-      await upVoteProductAction(productId);
       setOptimisticVoteCount(1);
+      setHasVoted(true)
+      const result = await upVoteProductAction(productId);
+      if (!result.success) {
+        console.error(result.message)
+      }
     })
   }
   
   const handleDownVote = async () => {
     startTransition(async () => {
-      await downVoteProductAction(productId);
       setOptimisticVoteCount(-1);
+      setHasVoted(false)
+      const result = await downVoteProductAction(productId);
+      if (!result.success) {
+        console.error(result.message)
+      }
     })
   }
   
@@ -56,7 +63,7 @@ export default function VotingBtns ({
         className={
           cn("h-8 w-8 text-primary",
             hasVoted
-              ? "text-primary hover:bg-primary/20 bg-primary/10"
+              ? "text-primary hover:bg-primary/20 bg-primary/10 cursor-not-allowed"
               : "hover:bg-primary/10 hover:text-primary cursor-pointer"
           )
         }
@@ -67,11 +74,7 @@ export default function VotingBtns ({
       </Button>
 
       <span className="text-sm font-semibold transition-colors text-foreground">
-        {
-          isPending
-            ? initialVoteCount
-            : optimisticVoteCount
-        }
+        { optimisticVoteCount }
       </span>
 
       <Button

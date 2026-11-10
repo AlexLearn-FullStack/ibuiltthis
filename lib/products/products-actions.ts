@@ -2,7 +2,7 @@
 "use server";
 
 import z from "zod";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { NeonDbError } from "@neondatabase/serverless";
 import { auth, currentUser } from "@clerk/nextjs/server";
@@ -101,6 +101,10 @@ export const addProductAction = async (prevState: FormState, formData: FormData)
 
 export const upVoteProductAction = async (productId: number) => {
   try {
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
+      return { success: false, message: "Invalid product ID." };
+    }
+
     const { userId, orgId } = await auth();
 
     if (!userId || !orgId) {
@@ -110,12 +114,22 @@ export const upVoteProductAction = async (productId: number) => {
       };
     }
 
-    await db
+    const [ updatedProduct ] = await db
       .update(products)
       .set({
         voteCount: sql`GREATEST(0, vote_count + 1)`
       })
-      .where(eq(products.id, productId));
+      .where(
+        and(
+          eq(products.id, productId),
+          eq(products.status, "approved")
+        )
+      )
+      .returning({ voteCount: products.voteCount });
+
+    if (!updatedProduct) {
+      return { success: false, message: "Approved product not found." };
+    }
 
     revalidatePath("/")
     
@@ -137,6 +151,10 @@ export const upVoteProductAction = async (productId: number) => {
 
 export const downVoteProductAction = async (productId: number) => {
   try {
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
+      return { success: false, message: "Invalid product ID." };
+    }
+
     const { userId, orgId } = await auth();
 
     if (!userId || !orgId) {
@@ -146,12 +164,22 @@ export const downVoteProductAction = async (productId: number) => {
       };
     }
 
-    await db
+    const [ updatedProduct ] = await db
       .update(products)
       .set({
         voteCount: sql`GREATEST(0, vote_count - 1)`
       })
-      .where(eq(products.id, productId));
+      .where(
+        and(
+          eq(products.id, productId),
+          eq(products.status, "approved")
+        )
+      )
+      .returning({ voteCount: products.voteCount });
+
+    if (!updatedProduct) {
+      return { success: false, message: "Approved product not found." };
+    }
 
     revalidatePath("/");
     
