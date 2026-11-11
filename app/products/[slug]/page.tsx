@@ -20,8 +20,14 @@ import {
 
 export const instant = false;
 
+const EMPTY_CATALOG_SLUG = "__empty_catalog__";
+
 export const generateStaticParams = async () => {
   const products = await getAllApprovedProducts();
+  if (products.length === 0) {
+    return [{ slug: EMPTY_CATALOG_SLUG }];
+  }
+
   return products.map(
     (product) => ({
       slug: product.slug
@@ -37,13 +43,27 @@ export default async function ProductPage ({
 }) {
   const { slug } = await params;
 
+  if (slug === EMPTY_CATALOG_SLUG) return notFound();
+
   let product;
   try {
     product = await getProductBySlug(slug);
   }
   catch (e) {
     console.error(e)
-    return notFound();
+    return (
+      <div className="wrapper py-16" role="alert">
+        <p className="text-muted-foreground">
+          Could not fetch this product at the moment. Please try again later.
+        </p>
+        <a
+          href={`/products/${encodeURIComponent(slug)}`}
+          className={buttonVariants({ variant: "outline", className: "mt-4 border border-border!" })}
+        >
+          Try again
+        </a>
+      </div>
+    );
   }
 
   if (!product) return notFound();
@@ -173,7 +193,7 @@ export default async function ProductPage ({
                       className: "w-full rounded-lg border border-border!"
                     })}
                     target="_blank"
-                    rel="noopener norefferer"
+                    rel="noopener noreferrer"
                   >
                     Visit Website
                     <ExternalLinkIcon className="size-4 ml-2" />
