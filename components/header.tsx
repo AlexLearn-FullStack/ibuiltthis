@@ -24,7 +24,7 @@ export default function Header () {
             <div className="flex size-7 items-center justify-center rounded-lg bg-primary sm:size-8">
               <SparkleIcon className="size-4 text-primary-foreground" />
             </div>
-            <span className="font-bold text-sm sm:text-xl">
+            <span className="font-bold hidden text-xl sm:inline-block">
               i<span className="text-primary">Made</span>This
             </span>
           </Link>
