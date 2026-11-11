@@ -50,3 +50,28 @@ export async function getRecentlyLaunchedProducts () {
     )
     .orderBy(desc(products.approvedAt));
 }
+
+
+export async function getProductBySlug (slug: string) {
+  try {
+    const product = await db
+      .select()
+      .from(products)
+      .where(
+        and(
+          eq(products.slug, slug),
+          eq(products.status, "approved")
+        )
+      );
+    
+    if (!product) {
+      return null
+    }
+    
+    return product[0]
+  }
+  catch (e) {
+    console.error(`Error getting product by slug: ${e}`)
+    throw e;
+  }
+}
